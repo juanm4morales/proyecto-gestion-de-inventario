@@ -1,5 +1,5 @@
 from django.db import models
-from compra.models import OrdenDeCompra
+from compra.models import OrdenCompra
 from tarea.models import Tarea
 
 class TipoInsumo(models.Model):
@@ -57,7 +57,7 @@ class Herramienta(models.Model):
 class InsumoOrdenCompra(models.Model):
     idTransaccion = models.AutoField(primary_key=True)
     idInsumo = models.ForeignKey(Insumo, on_delete=models.PROTECT)
-    idOrdenDeCompra = models.ForeignKey(OrdenDeCompra, on_delete=models.PROTECT)
+    idOrdenDeCompra = models.ForeignKey(OrdenCompra, on_delete=models.PROTECT)
     cantidad = models.IntegerField(null=False)
     fechaHora = models.DateTimeField(auto_now=True, null=False)
 
