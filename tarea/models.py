@@ -1,6 +1,14 @@
 from django.db import models
 
 # Create your models here.
+
+class Empleado(models.Model):
+    dni = models.IntegerField(unique=True)
+    nombre = models.CharField(max_length=255)
+    apellido = models.CharField(max_length=255)
+    telefono = models.CharField(max_length=255)
+    mail = models.EmailField()
+    
 class EncuestaDeSatisfaccion(models.Model):
     class EscalaSatisfaccion(models.TextChoices):
         EXELENTE = "EXT"
@@ -14,7 +22,7 @@ class EncuestaDeSatisfaccion(models.Model):
         DEFICIENTE = "DFI"
         MALO = "MLO"
         INDEFINIDO = "IND"
-    idOrdenDeServicio = models.ForeignKey("TaskManager.OrdenDeServicio", on_delete=models.CASCADE)
+    idOrdenDeServicio = models.ForeignKey("tarea.OrdenDeServicio", on_delete=models.CASCADE)
     satisfaccion = models.CharField(
         max_length=3,
         choices=EscalaSatisfaccion.choices,
@@ -34,8 +42,8 @@ class OrdenDeServicio(models.Model):
     class CateroriaScale(models.TextChoices):
         INDEFINIDO = "IND"
         
-    idUsuario = models.ForeignKey("PeopleManager.Usuario", verbose_name=("Id del usuario"), on_delete=models.DO_NOTHING)
-    idTarea = models.ForeignKey("TaskManager.Tarea", verbose_name=(""), on_delete=models.CASCADE)
+    idUsuario = models.ForeignKey("usuario.Usuario", verbose_name=("Id del usuario"), on_delete=models.DO_NOTHING)
+    idTarea = models.ForeignKey("tarea.Tarea", verbose_name=(""), on_delete=models.CASCADE)
     fechaDeGeneracion = models.DateField(auto_now=False, auto_now_add=False)
     caracter = models.CharField(
         max_length=3,
@@ -49,8 +57,8 @@ class OrdenDeServicio(models.Model):
     )
 
 class Tarea(models.Model):
-    idEmpleado = models.ManyToManyField("PeopleManager.Empleado",blank=False,null=False)
-    idSupTarea = models.OneToOneField("TaskManager.Tarea", verbose_name=("Tarea padre"), on_delete=models.DO_NOTHING,blank=False,null=True)
+    idEmpleado = models.ManyToManyField("tarea.Empleado",blank=False)
+    idSupTarea = models.OneToOneField("tarea.Tarea", verbose_name=("Tarea padre"), on_delete=models.DO_NOTHING,blank=False,null=True)
     legajo = models.IntegerField(unique=True)
     class TipoTarea(models.TextChoices):
         INDEFINIDO = "IND"
