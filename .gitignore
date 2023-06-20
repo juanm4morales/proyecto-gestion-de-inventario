@@ -1,3 +1,19 @@
-./__pycache__
-/__pycache__
-/settings/__pycache__
+**/__pycache__/*
+
+# venv
+venv/
+
+# db
+*.sqlite3
+
+#pyCache
+/*/__pycache__
+*/__pycache__
+__pycache__
+*.dot
+*.sqlite3
+*.png
+./venv
+./.venv
+.venv
+venv
