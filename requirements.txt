@@ -4,3 +4,4 @@ django-extensions==3.2.3
 pydot==1.4.2
 pyparsing==3.1.0
 sqlparse==0.4.4
+Pillow==9.5.0
