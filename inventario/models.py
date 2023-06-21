@@ -57,7 +57,7 @@ class Herramienta(models.Model):
 class OrdenDeCompra(models.Model):
     idTransaccion = models.AutoField(primary_key=True)
     idInsumo = models.ForeignKey(Insumo, on_delete=models.PROTECT)
-    idOrdenDeCompra = models.ForeignKey(OrdenCompra, on_delete=models.PROTECT)
+    # idOrdenDeCompra = models.ForeignKey(OrdenCompra, on_delete=models.PROTECT)
     cantidad = models.IntegerField(null=False)
     fechaHora = models.DateTimeField(auto_now=True, null=False)
 
