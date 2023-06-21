@@ -1,11 +1,9 @@
 from django.db import models
-from inventario.models import Insumo
 
 # Create your models here.
 class OrdenCompra(models.Model):
     idOrden = models.AutoField(primary_key = True)
-    idPresupuestoOrden = models.ForeignKey("PresupuestoOrdenCompra", on_delete=models.CASCADE)
-    idInsumo = models.ForeignKey("Insumo")
+    idPresupuestoOrden = models.ForeignKey("PresupuestoOrdenCompra", on_delete=models.DO_NOTHING)
     fecha = models.DateField()
 
 class Presupuesto(models.Model):
@@ -17,7 +15,7 @@ class Presupuesto(models.Model):
 
 class PresupuestoOrdenCompra(models.Model):
     idPresupuestoOrden = models.AutoField(primary_key = True)
-    idPresupuesto = models.ForeignKey("Presupuesto", on_delete=models.CASCADE)
-    idOrden = models.ForeignKey("OrdenCompra", on_delete=models.CASCADE)
+    idPresupuesto = models.ForeignKey("Presupuesto", on_delete=models.DO_NOTHING)
+    idOrden = models.ForeignKey("OrdenCompra", on_delete=models.DO_NOTHING)
     eleccion = models.BooleanField(default = False)
 
