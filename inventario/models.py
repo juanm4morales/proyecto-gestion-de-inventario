@@ -54,7 +54,7 @@ class Herramienta(models.Model):
         texto = "{0} [{1}]"
         return texto.format(self.nombre, self.estado)    
     
-class InsumoOrdenCompra(models.Model):
+class OrdenDeCompra(models.Model):
     idTransaccion = models.AutoField(primary_key=True)
     idInsumo = models.ForeignKey(Insumo, on_delete=models.DO_NOTHING)
     idOrdenDeCompra = models.ForeignKey(OrdenCompra, on_delete=models.DO_NOTHING)
@@ -65,7 +65,7 @@ class InsumoOrdenCompra(models.Model):
         texto = "{0} ({1})"
         return texto.format(self.idInsumo, self.cantidad)
     
-class InsumoTarea(models.Model):
+class OrdenDeRetiro(models.Model):
     idTransaccion = models.AutoField(primary_key=True)
     idInsumo = models.ForeignKey(Insumo, on_delete=models.DO_NOTHING)
     idTarea = models.ForeignKey(Tarea, on_delete=models.DO_NOTHING)
