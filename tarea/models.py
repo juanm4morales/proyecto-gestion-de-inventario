@@ -22,7 +22,7 @@ class EncuestaDeSatisfaccion(models.Model):
         DEFICIENTE = "DFI"
         MALO = "MLO"
         INDEFINIDO = "IND"
-    idOrdenDeServicio = models.ForeignKey("tarea.OrdenDeServicio", on_delete=models.CASCADE)
+    idOrdenDeServicio = models.ForeignKey("tarea.OrdenDeServicio", on_delete=models.DO_NOTHING)
     satisfaccion = models.CharField(
         max_length=3,
         choices=EscalaSatisfaccion.choices,
@@ -43,7 +43,7 @@ class OrdenDeServicio(models.Model):
         INDEFINIDO = "IND"
         
     idUsuario = models.ForeignKey("usuario.Usuario", verbose_name=("Id del usuario"), on_delete=models.DO_NOTHING)
-    idTarea = models.ForeignKey("tarea.Tarea", verbose_name=(""), on_delete=models.CASCADE)
+    idTarea = models.ForeignKey("tarea.Tarea", verbose_name=(""), on_delete=models.DO_NOTHING)
     fechaDeGeneracion = models.DateField(auto_now=False, auto_now_add=False)
     caracter = models.CharField(
         max_length=3,
@@ -58,7 +58,7 @@ class OrdenDeServicio(models.Model):
 
 class Tarea(models.Model):
     idEmpleado = models.ManyToManyField("tarea.Empleado",blank=False)
-    idSupTarea = models.OneToOneField("tarea.Tarea", verbose_name=("Tarea padre"), on_delete=models.DO_NOTHING,blank=False,null=True)
+    idSupTarea = models.OneToOneField("tarea.Tarea", verbose_name=("Tarea padre"), on_delete=models.DO_NOTHING,blank=False)
     legajo = models.IntegerField(unique=True)
     class TipoTarea(models.TextChoices):
         INDEFINIDO = "IND"
