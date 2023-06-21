@@ -4,7 +4,7 @@ from tarea.models import Tarea
 
 class TipoInsumo(models.Model):
     idTipoInsumo = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=32, null=False)
+    nombre = models.CharField(max_length=32)
     descripcion = models.CharField(max_length=256)
 
     def __str__(self):
@@ -13,8 +13,8 @@ class TipoInsumo(models.Model):
 
 class Insumo(models.Model):
     idInsumo = models.AutoField(primary_key=True)
-    idTipoInsumo = models.ForeignKey(TipoInsumo, on_delete=models.PROTECT)
-    nombre = models.CharField(max_length=32, null=False)
+    idTipoInsumo = models.ForeignKey(TipoInsumo, on_delete=models.DO_NOTHING)
+    nombre = models.CharField(max_length=32)
     MEDIDA_CHOICES = (
         ('metro', 'metro'),
         ('litro', 'litro'),
@@ -22,7 +22,7 @@ class Insumo(models.Model):
         ('contable', 'contable'),
     )
     unidadMedida = models.CharField(max_length=16, choices=MEDIDA_CHOICES, default='contable')
-    cantidad = models.IntegerField(null=False)
+    cantidad = models.IntegerField()
 
     def __str__(self):
         texto = "{0} ({1})"
@@ -31,7 +31,7 @@ class Insumo(models.Model):
     
 class TipoHerramienta(models.Model):
     idTipoHerramienta = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=32, null=False)
+    nombre = models.CharField(max_length=32)
     descripcion = models.CharField(max_length=256)
 
     def __str__(self):
@@ -40,9 +40,9 @@ class TipoHerramienta(models.Model):
 
 class Herramienta(models.Model):
     idHerramienta = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=32, null=False)
-    idTipoHerramienta = models.ForeignKey(TipoInsumo, on_delete=models.PROTECT)
-    codigo = models.CharField(max_length=16, null=False)
+    nombre = models.CharField(max_length=32)
+    idTipoHerramienta = models.ForeignKey(TipoInsumo, on_delete=models.DO_NOTHING)
+    codigo = models.CharField(max_length=16)
     ESTADO_CHOICES = (
         ('OK', 'OK'),
         ('En reparación', 'En reparación'),
@@ -56,10 +56,10 @@ class Herramienta(models.Model):
     
 class OrdenDeCompra(models.Model):
     idTransaccion = models.AutoField(primary_key=True)
-    idInsumo = models.ForeignKey(Insumo, on_delete=models.PROTECT)
-    # idOrdenDeCompra = models.ForeignKey(OrdenCompra, on_delete=models.PROTECT)
-    cantidad = models.IntegerField(null=False)
-    fechaHora = models.DateTimeField(auto_now=True, null=False)
+    idInsumo = models.ForeignKey(Insumo, on_delete=models.DO_NOTHING)
+    idOrdenDeCompra = models.ForeignKey(OrdenCompra, on_delete=models.DO_NOTHING)
+    cantidad = models.IntegerField()
+    fechaHora = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         texto = "{0} ({1})"
@@ -67,10 +67,10 @@ class OrdenDeCompra(models.Model):
     
 class OrdenDeRetiro(models.Model):
     idTransaccion = models.AutoField(primary_key=True)
-    idInsumo = models.ForeignKey(Insumo, on_delete=models.PROTECT)
-    idTarea = models.ForeignKey(Tarea, on_delete=models.PROTECT)
-    cantidad = models.IntegerField(null=False)
-    fechaHora = models.DateTimeField(auto_now=True, null=False)
+    idInsumo = models.ForeignKey(Insumo, on_delete=models.DO_NOTHING)
+    idTarea = models.ForeignKey(Tarea, on_delete=models.DO_NOTHING)
+    cantidad = models.IntegerField()
+    fechaHora = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         texto = "{0} ({1})"
@@ -79,12 +79,12 @@ class OrdenDeRetiro(models.Model):
 
 class TransaccionInsumos(models.Model):
     idTransaccion = models.AutoField(primary_key=True)
-    idInsumo = models.ForeignKey(Insumo, on_delete=models.PROTECT)
-    idTarea = models.ForeignKey(Tarea, on_delete=models.PROTECT)
-    idOrdenDeCompra = models.ForeignKey(OrdenDeCompra, on_delete=models.PROTECT)
-    cantidad = models.IntegerField(null=False)
-    motivo = models.CharField(max_length=256, null=False)
-    fechaYHora = models.DateTimeField(auto_now=True, null=False)
+    idInsumo = models.ForeignKey(Insumo, on_delete=models.DO_NOTHING)
+    idTarea = models.ForeignKey(Tarea, on_delete=models.DO_NOTHING)
+    idOrdenDeCompra = models.ForeignKey(OrdenDeCompra, on_delete=models.DO_NOTHING)
+    cantidad = models.IntegerField()
+    motivo = models.CharField(max_length=256)
+    fechaYHora = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         texto = "{0} [{1}]"
