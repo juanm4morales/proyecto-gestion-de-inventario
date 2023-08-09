@@ -1,5 +1,4 @@
 from django.db import models
-from compra.models import OrdenCompra
 from tarea.models import Tarea
 
 class TipoInsumo(models.Model):
@@ -55,41 +54,26 @@ class Herramienta(models.Model):
     def __str__(self):
         texto = "{0} [{1}]"
         return texto.format(self.nombre, self.estado)    
-    
-class OrdenDeCompra(models.Model):
-    idTransaccion = models.AutoField(primary_key=True)
-    idInsumo = models.ForeignKey(Insumo, on_delete=models.DO_NOTHING)
-    idOrdenDeCompra = models.ForeignKey(OrdenCompra, on_delete=models.DO_NOTHING)
+
+class PedidoInsumo(models.Model):
+    id = models.AutoField(primary_key=True)
+    insumo_id = models.ForeignKey(Insumo,on_delete=models.DO_NOTHING)
+    cantidad = models.IntegerField()
+    fechaHora = models.DateTimeField(auto_now=True)
+        
+class OrdenRetiro(models.Model):
+    id = models.AutoField(primary_key=True)
+    insumo_id = models.ForeignKey(Insumo, on_delete=models.DO_NOTHING)
+    tarea_id = models.ForeignKey(Tarea, on_delete=models.DO_NOTHING)
     cantidad = models.IntegerField()
     fechaHora = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         texto = "{0} ({1})"
         return texto.format(self.idInsumo, self.cantidad)
-    
-class OrdenDeRetiro(models.Model):
-    idTransaccion = models.AutoField(primary_key=True)
-    idInsumo = models.ForeignKey(Insumo, on_delete=models.DO_NOTHING)
-    idTarea = models.ForeignKey(Tarea, on_delete=models.DO_NOTHING)
-    cantidad = models.IntegerField()
-    fechaHora = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        texto = "{0} ({1})"
-        return texto.format(self.idInsumo, self.cantidad)
-'''
-
-class TransaccionInsumos(models.Model):
-    idTransaccion = models.AutoField(primary_key=True)
-    idInsumo = models.ForeignKey(Insumo, on_delete=models.DO_NOTHING)
-    idTarea = models.ForeignKey(Tarea, on_delete=models.DO_NOTHING)
-    idOrdenDeCompra = models.ForeignKey(OrdenDeCompra, on_delete=models.DO_NOTHING)
+class AjusteStock(models.Model):
+    id = models.AutoField(primary_key=True)
+    insumo_id = models.ForeignKey(Insumo, on_delete=models.DO_NOTHING)
     cantidad = models.IntegerField()
     motivo = models.CharField(max_length=256)
-    fechaYHora = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        texto = "{0} [{1}]"
-        return texto.format(self.nombre, self.estado) 
-
-'''
