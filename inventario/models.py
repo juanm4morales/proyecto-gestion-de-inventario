@@ -3,7 +3,7 @@ from compra.models import OrdenCompra
 from tarea.models import Tarea
 
 class TipoInsumo(models.Model):
-    idTipoInsumo = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=32)
     descripcion = models.CharField(max_length=256)
 
@@ -12,8 +12,8 @@ class TipoInsumo(models.Model):
         return texto.format(self.nombre)
 
 class Insumo(models.Model):
-    idInsumo = models.AutoField(primary_key=True)
-    idTipoInsumo = models.ForeignKey(TipoInsumo, on_delete=models.DO_NOTHING)
+    id = models.AutoField(primary_key=True)
+    tipoInsumo_id = models.ForeignKey(TipoInsumo, on_delete=models.DO_NOTHING)
     nombre = models.CharField(max_length=32)
     MEDIDA_CHOICES = (
         ('metro', 'metro'),
@@ -23,14 +23,16 @@ class Insumo(models.Model):
     )
     unidadMedida = models.CharField(max_length=16, choices=MEDIDA_CHOICES, default='contable')
     cantidad = models.IntegerField()
-
+    codigo = models.CharField(max_length=16)
+    descripcion = models.CharField(max_length=256)
+    
     def __str__(self):
         texto = "{0} ({1})"
         return texto.format(self.nombre, self.cantidad)
     
     
 class TipoHerramienta(models.Model):
-    idTipoHerramienta = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=32)
     descripcion = models.CharField(max_length=256)
 
@@ -39,9 +41,9 @@ class TipoHerramienta(models.Model):
         return texto.format(self.Nombre)
 
 class Herramienta(models.Model):
-    idHerramienta = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=32)
-    idTipoHerramienta = models.ForeignKey(TipoInsumo, on_delete=models.DO_NOTHING)
+    tipoHerramienta_id = models.ForeignKey(TipoHerramienta, on_delete=models.DO_NOTHING)
     codigo = models.CharField(max_length=16)
     ESTADO_CHOICES = (
         ('OK', 'OK'),
