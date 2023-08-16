@@ -7,9 +7,18 @@ class Presupuesto(models.Model):
     fecha = models.DateField()
     proveedor = models.CharField(max_length = 255)
     total = models.FloatField()
+    aprobado = models.BooleanField(default=False)
+    pedidoInsumo = models.ForeignKey(PedidoInsumo, on_delete=models.DO_NOTHING)
 
-class PresupuestoAsociado(models.Model):
+class PedidoInsumo(models.Model):                                                                                                                                                                                                         
+    id = models.AutoField(primary_key=True)                                                                                                                                                                                               
+    insumo = models.ForeignKey(Insumo, on_delete=models.DO_NOTHING)                                                                                                                                                                        
+    cantidad = models.IntegerField()                                                                                                                                                                                                      
+    fechaHora = models.DateTimeField(auto_now=True)
+
+class DetallePedido(models.Model):
     id = models.AutoField(primary_key = True)
-    presupuesto_id = models.ForeignKey(Presupuesto, on_delete=models.DO_NOTHING)
-    pedidoInsumo_id = models.ForeignKey(PedidoInsumo, on_delete=models.DO_NOTHING)
-    aprobado = models.BooleanField(default = False)
+    pedidoInsumo = models.ForeignKey(PedidoInsumo, on_delete=models.DO_NOTHING)
+    insumo = models.ForeignKey("inventario.Insumo", on_delete=models.DO_NOTHING)
+    cantidad = models.IntegerField()
+    observacion = models.CharField(max_length=255, null=True)
