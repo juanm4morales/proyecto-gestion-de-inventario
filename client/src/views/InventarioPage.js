@@ -17,20 +17,21 @@
 
 */
 import React from "react";
-import { FillTable } from "components/TableFiller";
 // reactstrap components
 import {
   Card,
   CardHeader,
   CardBody,
   CardTitle,
-
   Row,
   Col,
 } from "reactstrap";
+//
+import { FillTable } from "components/TableFiller";
+import {IoMdAddCircle} from "react-icons/io"
+import { Link } from "react-router-dom";
 
 function TipoInsumoTable(){
-  
   return (
     <>
       <div className="content">
@@ -41,6 +42,9 @@ function TipoInsumoTable(){
                 <CardTitle tag="h4">Tabla de Tipo de Insumo</CardTitle>
               </CardHeader>
               <CardBody>
+                <Link to="/admin/InventarioForm">
+                <button type="button" ><IoMdAddCircle/>Nuevo</button>
+                </Link>
                 <FillTable/>
               </CardBody>
             </Card>

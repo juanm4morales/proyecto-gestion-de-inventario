@@ -16,15 +16,22 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import TipoInsumoTable from "views/Tables.js";
+import InventarioForm from "views/InventarioForm";
+import InventarioList from "views/InventarioPage.js";
 
 var routes = [
   {
-    path: "/tables",
+    path: "/Inventario",
     name: "Inventario",
     icon: "nc-icon nc-tile-56",
-    component: <TipoInsumoTable />,
+    component: <InventarioList />,
     layout: "/admin",
+    form:{
+      path: "/InventarioForm",
+      component: <InventarioForm />,
+      layout: "/admin",
+    },
   }
 ];
+
 export default routes;

@@ -25,7 +25,9 @@ export function FillTable(){
         <thead className="text-primary">
             <tr>{   
                 attNames.map((name,index) => {return (<th key={index}>{name}</th>)})
-            }</tr>
+            }
+            <th>Acciones</th>
+            </tr>
         </thead>
         <tbody>{
             tiposinsumo.map((tipoinsumo) =>TipoInsumoCard(tipoinsumo))
