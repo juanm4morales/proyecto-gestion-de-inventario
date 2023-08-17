@@ -2,9 +2,8 @@ from django.db import models
 
 class PedidoInsumo(models.Model):
     id = models.AutoField(primary_key=True)
-    insumo = models.ForeignKey("inventario.Insumo", on_delete=models.DO_NOTHING)
-    cantidad = models.IntegerField()
     fechaHora = models.DateTimeField(auto_now=True)
+    observaciones = models.CharField(max_length=255, null=True)
 
 class Presupuesto(models.Model):
     id = models.AutoField(primary_key = True)
