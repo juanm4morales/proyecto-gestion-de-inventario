@@ -1,7 +1,7 @@
 import { createBrowserRouter,redirect } from "react-router-dom";
 import Home from "./pages/Home"
 import Inventario from "./pages/Inventario";
-
+import Detail from "./pages/Detail"
 const router = createBrowserRouter([
     {
       path: "/",
@@ -18,13 +18,9 @@ const router = createBrowserRouter([
       element: <Inventario/>
     },
     {
-      path: "/inventario/:itemName/table",
-      element: <Inventario/>
+      path: "/inventario/:itemName/detail/:itemId/:act",
+      element: <Detail/>
     },
-    {
-      path: "/inventario/:itemName/details",
-      element: <Inventario/>
-    }
   ]);
 
 export default router;

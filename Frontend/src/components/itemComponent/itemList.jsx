@@ -1,32 +1,22 @@
-import GetItem from "../../api/deserializer.js"
-import { useState,useEffect } from "react";
+import {GetItems} from "./apiService.jsx"
 import {BsTrash} from "react-icons/bs"
 import {BiEdit} from "react-icons/bi"
 import {HiOutlineEye} from "react-icons/hi"
 import {MdAddCircle} from "react-icons/md"
-import { Link} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 export function ItemList(itemName){
     
-    const [items,setItemObj] = useState([]);
-    
-    useEffect(() => {
-        async function loadItem(){
-            const jsonObj = await GetItem(itemName);
-            setItemObj(jsonObj.data)
-        }
-        loadItem()
-    },[]);    
-    
+    const items = GetItems(itemName);
     //Busca en un item el nombre de sus atributos
     var itemHeader = [];
-    if(items[0]!=null & (itemHeader).length == 0){
+    if(items[0]!=null & (itemHeader).length === 0){
         itemHeader = Object.keys(items[0])
     }
     
     return(
         <div className="view-details">
-            <Link to={("inventario/".concat(itemName)).concat("Form")}>
+            <Link to={`detail/${null}/${"create"}`}>
                 <button><MdAddCircle/>Nuevo</button>
             </Link>
             <table>
@@ -40,7 +30,6 @@ export function ItemList(itemName){
                 {
                     items.map(        
                         (item) => {
-                            {console.log(Object.values(item))}
                             return(
                                 <tr key={item.id}>{
                                 Object.values(item).map((att,index) => {
@@ -48,17 +37,17 @@ export function ItemList(itemName){
                                     })
                                 }
                                 <th>
-                                    <Link to={("inventario/".concat(itemName)).concat("Form")}>
+                                    <Link to={`detail/${item.id}/${"Read"}`}>
                                         <button><HiOutlineEye/></button>
                                     </Link>
                                 </th>
                                 <th>
-                                    <Link to={("inventario/".concat(itemName)).concat("Form")}>
-                                        <button><BiEdit/></button>
+                                    <Link to={`detail/${item.id}/${'Update'}`}>
+                                    <button><BiEdit/></button>
                                     </Link>
                                 </th>
                                 <th>
-                                    <Link to={("inventario/".concat(itemName)).concat("Form")}>
+                                    <Link to={`detail/${item.id}/${'Delete'}`}>
                                         <button><BsTrash/></button>
                                     </Link>
                                 </th>
