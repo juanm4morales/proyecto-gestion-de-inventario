@@ -1,5 +1,10 @@
 from django.db import models
-from inventario.models import PedidoInsumo
+
+class PedidoInsumo(models.Model):
+    id = models.AutoField(primary_key=True)
+    insumo = models.ForeignKey("inventario.Insumo", on_delete=models.DO_NOTHING)
+    cantidad = models.IntegerField()
+    fechaHora = models.DateTimeField(auto_now=True)
 
 class Presupuesto(models.Model):
     id = models.AutoField(primary_key = True)
@@ -9,12 +14,6 @@ class Presupuesto(models.Model):
     total = models.FloatField()
     aprobado = models.BooleanField(default=False)
     pedidoInsumo = models.ForeignKey(PedidoInsumo, on_delete=models.DO_NOTHING)
-
-class PedidoInsumo(models.Model):                                                                                                                                                                                                         
-    id = models.AutoField(primary_key=True)                                                                                                                                                                                               
-    insumo = models.ForeignKey(Insumo, on_delete=models.DO_NOTHING)                                                                                                                                                                        
-    cantidad = models.IntegerField()                                                                                                                                                                                                      
-    fechaHora = models.DateTimeField(auto_now=True)
 
 class DetallePedido(models.Model):
     id = models.AutoField(primary_key = True)
