@@ -1,35 +1,13 @@
-# Cliente del software de Gestión de Inventario
+# Proyecto Gestión de Inventario
 
-Esta parte del proyecto contiene la interfaz de usuario que permite el registro, autenticación y administración del inventario utilizando la API del backend y permitiendo la realización de operaciones CRUD sobre la base de datos.
+El proyector trata sobre el diseño e implementación de un software de gestión para el area de inventariado y mantenimiento de la facultad de ingeniería de la Universidad de Nacional de Cuyo. 
 
-# Stack de Tecnología y versiones
+## Imágenes
 
-- Bootstrap
-- React framework
-- Axios
-- Node.js v. . .  y npm v. . . 
-
-# Imágenes  
 - 
+
 - 
-## Ejecución
 
-*importante:* Los siguientes comandos deben ejecutarse en el directorio donde se ubica el frontend. Es decir, en el directorio /Frontend/
+## Instrucciones para la instalación
 
-Primero se deben instalar las dependencias utilizando npm:
-
-    npm install
-
-
-Para ejecutar el frontend tambien se utiliza npm:
-
-    npm start
-
-## Documentación
-
-## Estructura de archivos
-
-    -()-
-
-
-
+Las instrucciones de instalación del backend y al frontend se pueden leer del archivo **README.md** en sus respectivas carpetas.
