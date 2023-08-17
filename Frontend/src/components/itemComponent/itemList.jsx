@@ -3,14 +3,16 @@ import { useState,useEffect } from "react";
 import {BsTrash} from "react-icons/bs"
 import {BiEdit} from "react-icons/bi"
 import {HiOutlineEye} from "react-icons/hi"
+import {MdAddCircle} from "react-icons/md"
+import { Link} from "react-router-dom";
 
-export function ListTable(item){
+export function ItemList(itemName){
     
     const [items,setItemObj] = useState([]);
     
     useEffect(() => {
         async function loadItem(){
-            const jsonObj = await GetItem(item);
+            const jsonObj = await GetItem(itemName);
             setItemObj(jsonObj.data)
         }
         loadItem()
@@ -23,7 +25,10 @@ export function ListTable(item){
     }
     
     return(
-        <div className="">
+        <div className="view-details">
+            <Link to={("inventario/".concat(itemName)).concat("Form")}>
+                <button><MdAddCircle/>Nuevo</button>
+            </Link>
             <table>
                 <thead>
                     <tr>{   
@@ -42,9 +47,21 @@ export function ListTable(item){
                                      return <th key={index}>{att}</th> 
                                     })
                                 }
-                                <th><button icon={<HiOutlineEye/>}></button></th>
-                                <th><button icon={<BiEdit/>}></button></th>
-                                <th><button icon={<BsTrash/>}></button></th>
+                                <th>
+                                    <Link to={("inventario/".concat(itemName)).concat("Form")}>
+                                        <button><HiOutlineEye/></button>
+                                    </Link>
+                                </th>
+                                <th>
+                                    <Link to={("inventario/".concat(itemName)).concat("Form")}>
+                                        <button><BiEdit/></button>
+                                    </Link>
+                                </th>
+                                <th>
+                                    <Link to={("inventario/".concat(itemName)).concat("Form")}>
+                                        <button><BsTrash/></button>
+                                    </Link>
+                                </th>
                                 </tr>
                             )
                         }

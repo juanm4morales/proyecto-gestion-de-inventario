@@ -1,10 +1,10 @@
-import {ListTable} from "../components/listTable/listTable"
+import {ItemList} from "../components/itemComponent/itemList"
 
 export default function Inventario(){
     return(
-        <div>
+        <div className="wrapper">
             <h1>Tabla de TipoInsumo:</h1>
-            {ListTable("TipoInsumo")}
+            {ItemList("TipoInsumo")}
         </div>
     );
 }

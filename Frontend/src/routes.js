@@ -14,7 +14,15 @@ const router = createBrowserRouter([
       element: <Home />
     },
     {
-      path: "/inventario/TipoInsumo",
+      path: "/inventario/:itemName",
+      element: <Inventario/>
+    },
+    {
+      path: "/inventario/:itemName/table",
+      element: <Inventario/>
+    },
+    {
+      path: "/inventario/:itemName/details",
       element: <Inventario/>
     }
   ]);
