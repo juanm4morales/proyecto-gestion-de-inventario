@@ -1,18 +1,12 @@
-import {GetItems} from "./apiService.jsx"
 import {BsTrash} from "react-icons/bs"
 import {BiEdit} from "react-icons/bi"
 import {HiOutlineEye} from "react-icons/hi"
 import {MdAddCircle} from "react-icons/md"
-import {Link,useLoaderData} from "react-router-dom";
+import {Link,useLoaderData,useParams} from "react-router-dom";
 
 export function List(){
     const {itemName} = useParams();
     const items = useLoaderData();
-    //Busca en un item el nombre de sus atributos
-    var itemHeader = [];
-    if(items[0]!=null & (itemHeader).length === 0){
-        itemHeader = Object.keys(items[0])
-    }
 
     return(
         <div className="view-details">
@@ -22,7 +16,7 @@ export function List(){
             </Link>
             <table>
                 <thead>
-                    <fillHeader itemHeader={itemHeader}/>   
+                    <fillHeader items={items}/>   
                 </thead>
                 <tbody>
                     <fillRows items={items}/>
@@ -32,15 +26,17 @@ export function List(){
     );
 }
 
-function fillHeader(itemHeader){
+function fillHeader(items){
     return(
-        <>
-            <tr>{itemHeader.map((name,index) => {
+        <>{items.length ? (<tr>{
+            Object.keys(items[0]).map((name,index) => {
                 return (<th key={index}>{name}</th>)
-            })}</tr>
-            <tr></tr>
+            })
+            }</tr>
+         ):(<th></th>)}
+            <th></th>
         </>
-    )
+    );
 }
 
 function fillRows(items){

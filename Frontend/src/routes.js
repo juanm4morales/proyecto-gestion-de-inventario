@@ -1,7 +1,8 @@
 import { createBrowserRouter,redirect } from "react-router-dom";
 import Home from "./pages/Home"
-import { List as ListItemPage,Detail as DetailItemPage } from "./pages/ItemListPage";
-import { GetItem as ItemLoader,GetItems as ItemsLoader} from "./components/itemComponent/apiService";
+import { List as ListItemPage} from "./pages/ItemListPage";
+import { Detail as DetailItemPage } from "./pages/ItemDetailPage"
+import { GetItem as ItemLoader,GetItems as ItemsLoader} from "./components/Api/apiService";
 
 import { itemNames } from "./itemNames";
 /* 
