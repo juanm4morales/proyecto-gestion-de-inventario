@@ -9,12 +9,13 @@ async function Deserializer(url){
     return inventarioAPI.get(url);
 }
 
-export function GetItem(){
-    const [name,itemID] = useParams();
-    const url = `${name}/api/v1/${name}/${itemID}`;
+export function GetItem({params}){
+    const name = params.item;
+    const itemID = params.itemID;
     const location = useLocation();
-    
     const [item,setItem] = useState([])
+    
+    const url = `${name}/api/v1/${name}/${itemID}`;
     setItem(Deserializer(url));
     useEffect(() => {
         async function loadItem(){
@@ -25,18 +26,17 @@ export function GetItem(){
     },[url]);  
     return item;  
 }
-export function GetItems(){
-    const [name] = useParams();
-    const url = `${name}/api/v1/${name}`;
 
-    const [item,setItem] = useState([])
-    setItem(inventarioAPI.get(url));
+export function GetItems({params}){
+    const [items,setItems] = useState([])
+    const name = params.item
+    const url = `${name}/api/v1/${name}`;      
     useEffect(() => {
-        async function loadItem(){
+        async function loadItems(){
             const jsonObj = await Deserializer(url);
-            setItem(jsonObj.data)
+            setItems(jsonObj.data)
         }
-        loadItem()
-    },[url]);    
-    return item;
+        loadItems()
+    },[url]);
+    return items;
 }

@@ -5,12 +5,12 @@ import {MdAddCircle} from "react-icons/md"
 import {Link,useLoaderData,useParams} from "react-router-dom";
 
 export function List(){
-    const {itemName} = useParams();
+    const {item} = useParams();
     const items = useLoaderData();
-
+    
     return(
         <div className="view-details">
-            <h1>Tabla de {itemName}</h1>
+            <h1>Tabla de {item}</h1>
             <Link to={`detail/${null}/`}>
                 <button><MdAddCircle/>Nuevo</button>
             </Link>

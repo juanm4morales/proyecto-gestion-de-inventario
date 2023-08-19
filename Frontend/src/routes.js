@@ -1,42 +1,39 @@
 import { createBrowserRouter,redirect } from "react-router-dom";
-import Home from "./pages/Home"
-import { List as ListItemPage} from "./pages/ItemListPage";
-import { Detail as DetailItemPage } from "./pages/ItemDetailPage"
 import { GetItem as ItemLoader,GetItems as ItemsLoader} from "./components/Api/apiService";
 
-import { itemNames } from "./itemNames";
-/* 
-function getItemRoutes(itemNames){
-  var routes = itemNames.map((name) => {
-  return ({
-      path: "/inventario/".concat(name),
-      loader: <GetItems/>,
-      element: <ItemPage itemName={name}/>
-    })
-  })
-  itemNames.map((name) => (
-    routes.push(
-      {
-        path: "/inventario/".concat(name).concat("/detail/:itemId/:act"),
-        loader: <GetItem/>,
-        element: <Detail itemName={name}/>
-      }
-    )
-    ),routes)
-  return routes;  
-}
-*/
+import Home from "./pages/HomePage";
+import About from "./pages/AboutPage";
+import Dashboard from "./pages/DashboardPage";
+import  ItemList  from "./pages/ItemListPage";
+import ItemDetail from "./pages/ItemDetailPage";
+
 const routes = [
   {
     path: "/",
     loader: async () => (
+      redirect("/home")
+    )
+  },
+  {
+    path: "/home",
+    loader: async () => (
       redirect("/Dashboard")
     ),
+    element: <Home/>,
+    Children: [
+      {
+        path:"/home/about",
+        element:<About/>
+      }
+    ]
   },
   {
     path: "/Dashboard",
-    element: <Home />,
+    element: <Dashboard />,
     Children : [
+      {
+        element:<Graphs/>
+      },
       {
         path:"/Dashboard/inventario/:item",
         loader: ItemsLoader,
@@ -46,11 +43,39 @@ const routes = [
         path:"/Dashboard/inventario/:item/detail/:id",
         loader: ItemLoader,
         element: <DetailItemPage/>
-      },
+      }
     ]
   },
 ]
-console.log(routes)
-
 const router = createBrowserRouter(routes);
 export default router;
+
+
+/* (Codigo que genera rutas a partir de una lista)
+const itemNames =[
+    "Insumo",
+    "TipoInsumo",
+    "Herramienta",
+    "TipoHerramienta",
+]
+
+function getItemRoutes(itemNames){
+  var routes = itemNames.map((name) => {
+  return ({
+      path: "/inventario/".concat(name),
+      loader: ItemsLoader,
+      element: <ListItemPage/>
+    })
+  })
+  itemNames.map((name) => (
+    routes.push(
+      {
+        path: "/inventario/".concat(name).concat("/detail/:itemId/:act"),
+        loader: ItemLoader,
+        element: <DetailItemPage/>
+      }
+    )
+    ),routes)
+  return routes;  
+}
+*/
