@@ -37,7 +37,7 @@ import {Detail as ItemDetail} from "./pages/ItemDetailPage";
 var routes = [
   {
     path: "/",
-    loader: () => (redirect("/htome"))
+    loader: () => (redirect("/home"))
   },
   {
     path: "/home",

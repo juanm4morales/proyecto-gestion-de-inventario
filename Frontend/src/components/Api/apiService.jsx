@@ -17,17 +17,16 @@ export function ListItems(setItems){
     },[url,setItems]);
 }
 
-export function CreateItem(){
+export function CreateItem(itemData){
     const {item}= useParams();
-    
+
     const url = `${item}/api/v1/${item}`;
     useEffect(() => {
-        async function sendItem(){
-            const jsonItem = await inventarioAPI.post(url,data);
-            setItem(jsonItem.data)
+        async function sendCreateItem(){
+            inventarioAPI.post(url,itemData);
         }
-        sendItem()
-    },[url,setItem]);
+        sendCreateItem()
+    },[url,itemData]);
 }
 export function ReadItem(setItem){
     const {item,id}= useParams();
@@ -40,9 +39,25 @@ export function ReadItem(setItem){
         loadItem()
     },[url,setItem]);
 }
-export function UpdateItem(){
-
+export function UpdateItem(itemData){
+    console.log(itemData)
+    const {item,id}= useParams();
+    const url = `${item}/api/v1/${item}/${id}`;
+    useEffect(() => {
+        console.log('updating')
+        async function sendItem(){
+            await inventarioAPI.put(url);
+        }
+        sendItem()
+    },[url,itemData]);
 }
 export function DeleteItem(){
-
+    const {item,id}= useParams();
+    const url = `${item}/api/v1/${item}/${id}`;
+    useEffect(() => {
+        async function sendDeleteItem(){
+            inventarioAPI.delete(url);
+        }
+        sendDeleteItem()
+    },[url]);
 }

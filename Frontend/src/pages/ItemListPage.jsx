@@ -6,7 +6,7 @@ import {MdAddCircle} from "react-icons/md"
 
 import {Link,useParams} from "react-router-dom";
 import { useState,useEffect } from "react";
-import { GetItems } from "../components/Api/apiService";
+import { ListItems } from "../components/Api/apiService";
 
 import {  } from "axios";
 
@@ -14,16 +14,14 @@ export function List(){
     const {item} = useParams();
     const [items,setItems]= useState([]);
     try{
-        GetItems(setItems);
-        console.log("no error")
+        ListItems(setItems);
     }catch(Error){
-        console.log("se hizo")
         throw new Error("El recurso ".concat(item).concat(" no existe."))
     }
     return(
         <div className="view-details">
             <h1>Tabla de {item}</h1>
-            <Link to={`detail/${null}/` state={{op:Create}}}>
+            <Link to={`detail/${"new"}/`} state={{op:"Create"}}>
                 <button><MdAddCircle/>Nuevo</button>
             </Link>
             {BuildTable(items)}
@@ -35,7 +33,6 @@ function BuildTable(items){
     const [table,setTable] = useState(<h3>No hay insumos de este tipo</h3>);
     useEffect(()=>{
         if (items.length > 0){
-            console.log(items)
             const t = <table>
                         <thead>
                             <FillHeader items={items}/>
@@ -51,7 +48,6 @@ function BuildTable(items){
 }
 
 function FillHeader({items}){
-    console.log(items)
     var header = Object.keys(items[0])
     return(
         <>
@@ -84,11 +80,11 @@ function FillRows({items}){
     )
 }
 
-function AddButtons(item){
+function AddButtons({item}){
     return(
         <>
         <th>
-            <Link to={`detail/${item.id}` state={{op:"Read"}}>
+            <Link to={`detail/${item.id}`} state={{op:"Read"}}>
                 <button><HiOutlineEye/></button>
             </Link>
         </th>
