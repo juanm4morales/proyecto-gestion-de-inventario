@@ -1,6 +1,13 @@
-import { Outlet } from "react-router-dom";
+import { Outlet,Link } from "react-router-dom";
 
-export default Dashboard(){
+const itemNames =[
+    "Insumo",
+    "TipoInsumo",
+    "Herramienta",
+    "TipoHerramienta",
+]
+
+export default function Dashboard() {
     return(
     //layout route
     <>

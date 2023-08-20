@@ -1,55 +1,80 @@
-import { createBrowserRouter,redirect } from "react-router-dom";
-import { GetItem as ItemLoader,GetItems as ItemsLoader} from "./components/Api/apiService";
+import { createBrowserRouter,redirect} from "react-router-dom";
 
 import Home from "./pages/HomePage";
 import About from "./pages/AboutPage";
 import Dashboard from "./pages/DashboardPage";
-import  ItemList  from "./pages/ItemListPage";
-import ItemDetail from "./pages/ItemDetailPage";
+import ErrorPage from "./pages/ErrorPage"
+import {List as ItemList}  from "./pages/ItemListPage";
+import {Detail as ItemDetail} from "./pages/ItemDetailPage";
 
-const routes = [
+/**
+ * Variable que contiene las rutas que se renderizarán.
+ * Algunas consideraciones:
+ * Capos de un objeto tipo ruta en este formato de declaración:
+ * interface RouteObject {
+      path?: string;
+      index?: boolean;
+      children?: React.ReactNode;
+      caseSensitive?: boolean;
+      id?: string;
+      loader?: LoaderFunction;
+      action?: ActionFunction;
+      element?: React.ReactNode | null;
+      Component?: React.ComponentType | null;
+      errorElement?: React.ReactNode | null;
+      ErrorBoundary?: React.ComponentType | null;
+      handle?: RouteObject["handle"];
+      shouldRevalidate?: ShouldRevalidateFunction;
+      lazy?: LazyRouteFunction<RouteObject>;
+  }
+  (IMPORTANTE QUE RESPETE EL NOMBRE que es caseSensitive)
+  informacion: https://reactrouter.com/en/main/route/route
+  (loader:es una funcion que se ejecuta antes de cargar la vista)
+  (handler: es una funcion que se ejecuta una vez cargada la pagina)
+  (las rutas index,layout y el outlet son conceptos importantes)
+ */
+
+var routes = [
   {
     path: "/",
-    loader: async () => (
-      redirect("/home")
-    )
+    loader: () => (redirect("/htome"))
   },
   {
     path: "/home",
-    loader: async () => (
-      redirect("/Dashboard")
-    ),
+    loader: () => ( redirect("/Dashboard")),
     element: <Home/>,
-    Children: [
+    children: [
       {
+        index:true,
         path:"/home/about",
         element:<About/>
       }
     ]
   },
   {
-    path: "/Dashboard",
+    path: "/Dashboard/",
     element: <Dashboard />,
-    Children : [
+    children : [
       {
-        element:<Graphs/>
+        path:"inventario/:item",
+        element: <ItemList/>,
+        errorElement:<ErrorPage/>
       },
       {
-        path:"/Dashboard/inventario/:item",
-        loader: ItemsLoader,
-        element: <ListItemPage/>
+        path:"inventario/:item/detail/:id",
+        element: <ItemDetail/>
       },
       {
-        path:"/Dashboard/inventario/:item/detail/:id",
-        loader: ItemLoader,
-        element: <DetailItemPage/>
+        index:true,
+        element: <Home/>
       }
     ]
-  },
-]
+  }
+];
+
+//console.log(routes);
 const router = createBrowserRouter(routes);
 export default router;
-
 
 /* (Codigo que genera rutas a partir de una lista)
 const itemNames =[
