@@ -8,7 +8,7 @@ import {Link,useParams} from "react-router-dom";
 import { useState,useEffect } from "react";
 import { ListItems } from "../components/Api/apiService";
 
-import {  } from "axios";
+import {resources} from "../components/Api/apiService"
 
 export function List(){
     const {item} = useParams();
@@ -24,18 +24,18 @@ export function List(){
             <Link to={`detail/${"new"}/`} state={{op:"Create"}}>
                 <button><MdAddCircle/>Nuevo</button>
             </Link>
-            {BuildTable(items)}
+            {BuildTable(item,items)}
         </div>
     );
 }
 
-function BuildTable(items){
+function BuildTable(itemName,items){
     const [table,setTable] = useState(<h3>No hay insumos de este tipo</h3>);
     useEffect(()=>{
         if (items.length > 0){
             const t = <table>
                         <thead>
-                            <FillHeader items={items}/>
+                            <FillHeader itemName={itemName}/>
                         </thead>
                         <tbody>
                             <FillRows items={items}/>
@@ -43,17 +43,17 @@ function BuildTable(items){
                     </table>
             setTable(t) 
         }
-    },[setTable,items]);
+    },[setTable,items,itemName]);
     return (table);
 }
 
-function FillHeader({items}){
-    var header = Object.keys(items[0])
+function FillHeader({itemName}){
+    var header = resources[itemName]
     return(
         <>
             <tr>{ 
-                header.map((itemName,index) => {
-                    return (<th key={index}>{itemName}</th>)
+                header.map((itemAtt,index) => {
+                    return (<th key={index}>{itemAtt}</th>)
                 })
             }
             <th></th>
@@ -65,7 +65,7 @@ function FillHeader({items}){
 function FillRows({items}){
     return (
         items.map((item) => {
-            console.log(item)
+            //console.log(item)
             var values = Object.values(item)
             return(
                 <tr key={item.id}>{

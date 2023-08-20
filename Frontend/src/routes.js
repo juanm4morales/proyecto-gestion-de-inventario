@@ -6,6 +6,7 @@ import Dashboard from "./pages/DashboardPage";
 import ErrorPage from "./pages/ErrorPage"
 import {List as ItemList}  from "./pages/ItemListPage";
 import {Detail as ItemDetail} from "./pages/ItemDetailPage";
+import { CreateItem } from "./components/Api/apiService";
 
 /**
  * Variable que contiene las rutas que se renderizarán.
@@ -62,7 +63,8 @@ var routes = [
       },
       {
         path:"inventario/:item/detail/:id",
-        element: <ItemDetail/>
+        element: <ItemDetail/>,
+        //action: (request) =>{<CreateItem data={request}/>}
       },
       {
         index:true,

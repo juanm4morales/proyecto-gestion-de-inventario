@@ -19,7 +19,7 @@ export function ListItems(setItems){
 
 export function CreateItem(itemData){
     const {item}= useParams();
-
+    console.log("se ejecuto")
     const url = `${item}/api/v1/${item}`;
     useEffect(() => {
         async function sendCreateItem(){
@@ -60,4 +60,9 @@ export function DeleteItem(){
         }
         sendDeleteItem()
     },[url]);
+}
+
+
+export var resources ={
+    TipoInsumo:['id','nombre','descripcion']
 }

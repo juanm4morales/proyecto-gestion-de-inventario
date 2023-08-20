@@ -1,11 +1,6 @@
 import { Outlet,Link } from "react-router-dom";
 
-const itemNames =[
-    "Insumo",
-    "TipoInsumo",
-    "Herramienta",
-    "TipoHerramienta",
-]
+import {resources} from "../components/Api/apiService"
 
 export default function Dashboard() {
     return(
@@ -16,7 +11,7 @@ export default function Dashboard() {
             <h2>Inventario</h2>
             <nav>
                 <ol>
-                    {itemNames.map((name,index) => (
+                    {Object.keys(resources).map((name,index) => (
                         <li key={index}>
                             <Link to={'inventario/'.concat(name).concat('/')}>
                                 {name}
