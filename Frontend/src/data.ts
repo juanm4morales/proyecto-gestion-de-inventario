@@ -1,3 +1,5 @@
+// Datos estáticos ficticios
+
 export const menu = [
     {
         id: 1,

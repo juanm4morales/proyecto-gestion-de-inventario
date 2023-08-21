@@ -5,6 +5,8 @@ import { Add } from "../../components/add/Add"
 import { GridColDef } from "@mui/x-data-grid";
 import { inventory } from "../../data";
 
+
+// Datos estáticos ficticios
 const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 90 },
     {
@@ -52,6 +54,7 @@ const columns: GridColDef[] = [
         type: "boolean",
     },
 ];
+
 
 const Inventory = () => {
     const [open, setOpen] = useState(false)

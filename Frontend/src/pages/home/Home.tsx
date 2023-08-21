@@ -6,6 +6,8 @@ import BarChartBox from "../../components/barChartBox/BarChartBox"
 import { PieChartBox } from "../../components/pieChartBox/PieChartBox"
 import { BigChartBox } from "../../components/bigChartBox/BigChartBox"
 
+
+
 function Home() {
   return (
     <div className="home">

@@ -5,7 +5,7 @@ import { userRows } from "../../data";
 import { Add } from "../../components/add/Add";
 import { useState } from "react";
 
-
+// Datos estáticos ficticios
 const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 90 },
     {

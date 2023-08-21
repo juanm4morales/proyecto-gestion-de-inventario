@@ -7,7 +7,11 @@ type Props = {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 
 }
-
+/**
+ * Formulario a desplegar cuando se intenta agregar un item
+ * @param props - Propiedades que tendrá el componente Add
+ * @returns Form con los datos del nuevo item a agregar
+ */
 export const Add = (props: Props) => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

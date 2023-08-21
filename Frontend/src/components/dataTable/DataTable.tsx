@@ -2,7 +2,7 @@ import { DataGrid, GridColDef, GridToolbar} from "@mui/x-data-grid";
 import "./dataTable.scss"
 import { Link } from "react-router-dom";
 
-
+// Estructura de las propiedades del componente
 type Props = {
     columns: GridColDef[],
     rows: object[],
@@ -15,6 +15,11 @@ const handleDelete = (id:number) => {
     console.log(id + " has been deleted!")
 }
 
+/**
+ * Listado de items a consultar (Inventory, Users en el ejemplo)
+ * @param props 
+ * @returns 
+ */
 export const DataTable = (props: Props) => {
 
     const actionColumn: GridColDef = {
