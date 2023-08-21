@@ -7,3 +7,4 @@ sqlparse==0.4.4
 Pillow==9.5.0
 djangorestframework
 django-cors-headers
+coreapi==2.3.3
