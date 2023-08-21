@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'corsheaders',
     'rest_framework',
+    'coreapi',
     'compra',
     'usuario',
     'tarea',
@@ -139,3 +140,7 @@ MEDIA_URL = '/media/'
 # Cors authorization
 CORS_ALLOWED_ORIGINS = [
         ]
+
+REST_FRAMEWORK = {
+        'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+}
