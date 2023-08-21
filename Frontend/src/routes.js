@@ -4,9 +4,9 @@ import Home from "./pages/HomePage";
 import About from "./pages/AboutPage";
 import Dashboard from "./pages/DashboardPage";
 import ErrorPage from "./pages/ErrorPage"
-import {List as ItemList}  from "./pages/ItemListPage";
-import {Detail as ItemDetail} from "./pages/ItemDetailPage";
-import { CreateItem } from "./components/Api/apiService";
+import {ItemList}  from "./pages/ItemListPage";
+import {CreateForm,ReadForm,UpdateForm,DeleteForm} from "./pages/ItemDetailPage";
+import {ReadItem,FormSubmitter,FormLoader} from "./components/Api/apiService"
 
 /**
  * Variable que contiene las rutas que se renderizarán.
@@ -62,9 +62,28 @@ var routes = [
         errorElement:<ErrorPage/>
       },
       {
-        path:"inventario/:item/detail/:id",
-        element: <ItemDetail/>,
-        //action: (request) =>{<CreateItem data={request}/>}
+        path:"inventario/:item/create/",
+        element: <CreateForm/>,
+        loader: FormLoader,
+        action: FormSubmitter
+      },
+      {
+        path:"inventario/:item/read/:id",
+        element: <ReadForm/>,
+        loader: FormLoader,
+        action: ReadItem
+      },
+      {
+        path:"inventario/:item/update/:id",
+        element: <UpdateForm/>,
+        loader: FormLoader,
+        action: FormSubmitter
+      },
+      {
+        path:"inventario/:item/delete/:id",
+        element: <DeleteForm/>,
+        loader: FormLoader,
+        action: FormSubmitter
       },
       {
         index:true,

@@ -10,7 +10,7 @@ import { ListItems } from "../components/Api/apiService";
 
 import {resources} from "../components/Api/apiService"
 
-export function List(){
+export function ItemList(){
     const {item} = useParams();
     const [items,setItems]= useState([]);
     try{
@@ -21,7 +21,7 @@ export function List(){
     return(
         <div className="view-details">
             <h1>Tabla de {item}</h1>
-            <Link to={`detail/${"new"}/`} state={{op:"Create"}}>
+            <Link to={`Create/`}>
                 <button><MdAddCircle/>Nuevo</button>
             </Link>
             {BuildTable(item,items)}
@@ -84,17 +84,17 @@ function AddButtons({item}){
     return(
         <>
         <th>
-            <Link to={`detail/${item.id}`} state={{op:"Read"}}>
+            <Link to={`Read/${item.id}`}>
                 <button><HiOutlineEye/></button>
             </Link>
         </th>
         <th>
-            <Link to={`detail/${item.id}`} state={{op:"Update"}}>
+            <Link to={`Update/${item.id}`}>
             <button><BiEdit/></button>
             </Link>
         </th>
         <th>
-            <Link to={`detail/${item.id}`} state={{op:"Delete"}}>
+            <Link to={`Delete/${item.id}`}>
                 <button><BsTrash/></button>
             </Link>
         </th>

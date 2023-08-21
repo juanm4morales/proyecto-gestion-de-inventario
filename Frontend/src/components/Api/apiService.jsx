@@ -17,17 +17,6 @@ export function ListItems(setItems){
     },[url,setItems]);
 }
 
-export function CreateItem(itemData){
-    const {item}= useParams();
-    console.log("se ejecuto")
-    const url = `${item}/api/v1/${item}`;
-    useEffect(() => {
-        async function sendCreateItem(){
-            inventarioAPI.post(url,itemData);
-        }
-        sendCreateItem()
-    },[url,itemData]);
-}
 export function ReadItem(setItem){
     const {item,id}= useParams();
     const url = `${item}/api/v1/${item}/${id}`;
@@ -39,29 +28,35 @@ export function ReadItem(setItem){
         loadItem()
     },[url,setItem]);
 }
-export function UpdateItem(itemData){
-    console.log(itemData)
-    const {item,id}= useParams();
-    const url = `${item}/api/v1/${item}/${id}`;
-    useEffect(() => {
-        console.log('updating')
-        async function sendItem(){
-            await inventarioAPI.put(url);
-        }
-        sendItem()
-    },[url,itemData]);
-}
-export function DeleteItem(){
-    const {item,id}= useParams();
-    const url = `${item}/api/v1/${item}/${id}`;
-    useEffect(() => {
-        async function sendDeleteItem(){
-            inventarioAPI.delete(url);
-        }
-        sendDeleteItem()
-    },[url]);
+
+export async function FormLoader({ request }){
+    console.log(request)
+    let url = new URL(request.url);
+    let searchTerm = url.searchParams.get("q");
+    return fakeSearchProducts(searchTerm);
 }
 
+export async function FormSubmitter({request,params}){
+    console.log(params)
+    const {item}= useParams();
+    const url = `${item}/api/v1/${item}`;
+    useEffect(() => {
+        async function sendRequest(){
+            switch(request.method){
+                case "POST":
+                    await inventarioAPI.post(url,itemData);
+                    break;
+                case "PUT":
+                    await inventarioAPI.put(url,itemData);
+                    break;
+                case "DELETE":
+                    inventarioAPI.delete(url);
+                    break;
+            }
+        }
+        sendRequest()
+    },[url,itemData]);
+}
 
 export var resources ={
     TipoInsumo:['id','nombre','descripcion']

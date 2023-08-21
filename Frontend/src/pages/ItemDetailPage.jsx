@@ -1,80 +1,77 @@
-import {useParams,Form, useLocation,useNavigate} from "react-router-dom";
-import { CreateItem,DeleteItem, ReadItem as ReadItemHandle, UpdateItem, resources} from "../components/Api/apiService";
+import {useParams,Form, Link, useLoaderData} from "react-router-dom";
+import {ReadItem,resources} from "../components/Api/apiService";
 import { useState } from "react";
 
-export function Detail(){
-    const {item} = useParams();
-    const {op} = useLocation().state || "";
-    const [ReadItem,SetReadItem] = useState([])
-    const [newItem,SetNewItem]= useState([])
-    
-    const nav = useNavigate();
-    
-    var form = <></>;
-    const attributes = resources[item]
-    if(op==="Create"){
-        form = <>
-                <h1>Crear nuevo {item}</h1>
-                <Form onSubmit={<CreateItem data={newItem}/>} state={{op:"Update"}}>
+/**
+ * Se encarga de actualizar la variable de estado cuyo objeto se muestra en los campos.
+ * @param {*} item 
+ * @param {*} att 
+ * @param {*} setData 
+ * @returns 
+ */
+const handleInputChange = (item,att,setData) => (event)=> {
+    setData((item) => ({ ...item, [att]: event.target.value }))
+}
+
+function ItemForm(op){
+    const {itemName} = useParams();
+    const [itemObj,setItemObj]= useState(useLoaderData() || [])
+    const attributes = resources[itemName]
+    if(op!=="Create"){
+        ReadItem(setItemObj)
+    }
+    const form = <></>;
+    switch(op){
+        case "Create":{form = <>
+            <h1>Crear nuevo {item}</h1>
+            <Form method="POST">
                 {attributes.map((att,index)=>{
-                    var r = <></>
                     if(index!==0){
-                        r = <div key={index} >
-                            {att}
-                            <input key={index}
-                            type="text" 
-                            value={newItem[att]} 
-                            name={att} 
-                            onChange={(event)=>handleInputChange(event,newItem,att,SetNewItem)}
-                            />
-                        </div>
+                        return(<div key={index} >{att}<input type="text"  value={itemObj[att]||''} name={att} onChange={handleInputChange(itemObj,att,SetNewItem)}/></div>);
                     }
-                    return r;
-                })
-                }
+                })}
                 <button type="submit">Crear</button>
-                </Form>
-            </>
-    }else{
-        ReadItemHandle(SetReadItem)
-        switch(op){
-            case "Read":
-            form=<>
-                <h1>Ver {item}</h1>
-                {attributes.map((att,index)=>{return(<div key={index} >{att}<input type="text" name={att} value={ReadItem[att]} disabled/></div>)})}
-                <button type="submit" disabled>Guardar</button>
-            </>
-            break;
-        case "Update":
-            form=<>
-                <h1>Modificar {item}</h1>
-                <Form method="PUT" onSubmit={<UpdateItem data={ReadItem}/>}>
-                {attributes.map((att,index)=>{return(<div key={index} >{att}<input type="text" name={att} value={ReadItem[att]} onChange={handleInputChange(ReadItem,att,SetReadItem)}/></div>)})}
+            </Form>
+        </>}
+        case "Read":{form = <>
+            <h1>Ver {item}</h1>
+            <Form method="GET">
+                {attributes.map((att,index)=>{return(
+                <div key={index}>{att}<input type="text" name={att} value={ReadItem[att]||''} onChange={handleInputChange(ReadItem,att,SetReadItem)}/></div>)})}
+                <button type="submit" disabled>Modificar</button>
+            </Form>
+        </>}
+        case "Update":{form = <>
+            <h1>Modificar {item}</h1>
+            <Form method="POST">
+                {attributes.map((att,index)=>{return(<div key={index}>{att}<input type="text" name={att} value={ReadItem[att]||''} onChange={handleInputChange(ReadItem,att,SetReadItem)}/></div>)})}
                 <button type="submit">Modificar</button>
-                </Form>
-            </>
-            break;
-        case "Delete":
-            form=<>
-                <h1>Eliminar {item}</h1>
-                <Form method="DELETE" onSubmit={<DeleteItem/>}>
-                {attributes.map((att,index)=>{return(<div key={index} >{att}<input type="text" name={att} value={ReadItem[att]} disabled/></div>)})}
+            </Form>
+        </>}
+        case "Delete":{form = <> 
+            <Form method="DELETE">
+                {attributes.map((att,index)=>{return(<div key={index}>{att}<input type="text" name={att} value={ReadItem[att]||''} state={{op:'Delete'}} disabled/></div>)})}
                 <button type="submit">Eliminar</button>
-                </Form>
-            </>
-            break;
-        default:
-            throw new Error("Unexpected action. You must enter into this view from List view")
-        }
+            </Form>
+        </>}
+        default:{}
     }
     return(
     <div>
         {form}
-        <button type="button" onClick={()=>{nav(-1)}}>Atrás</button>
+        <Link to={`/Dashboard/inventario/${item}`}><button type="button">Atrás</button></Link>
     </div>);
-  }
+}
 
-  const handleInputChange = (item,att,SetReadItem) => (event)=> {
-            //Chequeo
-            SetReadItem((item) => ({ ...item, [att]: event.target.value }))
-        }
+export function CreateForm(){
+    return ItemForm("Create")
+}
+export function UpdateForm(){
+    return ItemForm("Update")
+}
+export function ReadForm(){
+    return ItemForm("Read")
+}
+export function DeleteForm(){
+    return ItemForm("Delete")
+}
