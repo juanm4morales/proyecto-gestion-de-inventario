@@ -14,52 +14,59 @@ const handleInputChange = (item,att,setData) => (event)=> {
 }
 
 function ItemForm(op){
-    const {itemName} = useParams();
+    const {item: itemName} = useParams()
     const [itemObj,setItemObj]= useState(useLoaderData() || [])
     const attributes = resources[itemName]
     if(op!=="Create"){
         ReadItem(setItemObj)
     }
-    const form = <></>;
+    var form = <></>;
     switch(op){
         case "Create":{form = <>
-            <h1>Crear nuevo {item}</h1>
+            <h1>Crear nuevo {itemName}</h1>
             <Form method="POST">
                 {attributes.map((att,index)=>{
                     if(index!==0){
-                        return(<div key={index} >{att}<input type="text"  value={itemObj[att]||''} name={att} onChange={handleInputChange(itemObj,att,SetNewItem)}/></div>);
+                        return(<div key={index} >{att}<input type="text"  value={itemObj[att]||''} name={att} onChange={handleInputChange(itemObj,att,setItemObj)}/></div>);
+                    }else{
+                        return(<div key={index}></div>)
                     }
                 })}
                 <button type="submit">Crear</button>
             </Form>
         </>}
+        break;
         case "Read":{form = <>
-            <h1>Ver {item}</h1>
+            <h1>Ver {itemName}</h1>
             <Form method="GET">
                 {attributes.map((att,index)=>{return(
-                <div key={index}>{att}<input type="text" name={att} value={ReadItem[att]||''} onChange={handleInputChange(ReadItem,att,SetReadItem)}/></div>)})}
+                <div key={index}>{att}<input type="text" name={att} value={itemObj[att]||''} onChange={handleInputChange(itemObj,att,setItemObj)}disabled/></div>)})}
                 <button type="submit" disabled>Modificar</button>
             </Form>
         </>}
+        break;
         case "Update":{form = <>
-            <h1>Modificar {item}</h1>
-            <Form method="POST">
-                {attributes.map((att,index)=>{return(<div key={index}>{att}<input type="text" name={att} value={ReadItem[att]||''} onChange={handleInputChange(ReadItem,att,SetReadItem)}/></div>)})}
+            <h1>Modificar {itemName}</h1>
+            <Form method="PUT">
+                {attributes.map((att,index)=>{return(<div key={index}>{att}<input type="text" name={att} value={itemObj[att]||''} onChange={handleInputChange(itemObj,att,setItemObj)}/></div>)})}
                 <button type="submit">Modificar</button>
             </Form>
         </>}
+        break;
         case "Delete":{form = <> 
-            <Form method="DELETE">
-                {attributes.map((att,index)=>{return(<div key={index}>{att}<input type="text" name={att} value={ReadItem[att]||''} state={{op:'Delete'}} disabled/></div>)})}
-                <button type="submit">Eliminar</button>
+            <h1>Eliminar {itemName}</h1>
+            <Form method="DELETE" to="../../" relative="path">
+                {attributes.map((att,index)=>{return(<div key={index}>{att}<input type="text" name={att} value={itemObj[att]||''} state={{op:'Delete'}} disabled/></div>)})}
+               <button type="submit">Eliminar</button>
             </Form>
         </>}
+        break;
         default:{}
     }
     return(
     <div>
         {form}
-        <Link to={`/Dashboard/inventario/${item}`}><button type="button">Atrás</button></Link>
+        <Link to={`/Dashboard/inventario/${itemName}`}><button type="button">Atrás</button></Link>
     </div>);
 }
 
