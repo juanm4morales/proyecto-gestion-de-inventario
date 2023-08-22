@@ -1,10 +1,16 @@
 from django.db import models
 from tarea.models import Tarea
 
+ESTADO_CHOICES = (
+    ('OK', 'OK'),
+    ('En reparación', 'En reparación'),
+    ('Mal estado', 'Mal estado'),
+)
+
 class TipoInsumo(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=32)
-    descripcion = models.CharField(max_length=256)
+    descripcion = models.CharField(max_length=256, null=True)
 
     def __str__(self):
         texto = "{0}"
@@ -12,8 +18,8 @@ class TipoInsumo(models.Model):
 
 class Insumo(models.Model):
     id = models.AutoField(primary_key=True)
-    tipoInsumo_id = models.ForeignKey(TipoInsumo, on_delete=models.DO_NOTHING)
-    nombre = models.CharField(max_length=32)
+    tipoInsumo = models.ForeignKey(TipoInsumo, on_delete=models.DO_NOTHING)
+    descripcion = models.CharField(max_length=32)
     MEDIDA_CHOICES = (
         ('metro', 'metro'),
         ('litro', 'litro'),
@@ -22,9 +28,10 @@ class Insumo(models.Model):
     )
     unidadMedida = models.CharField(max_length=16, choices=MEDIDA_CHOICES, default='contable')
     cantidad = models.IntegerField()
-    codigo = models.CharField(max_length=16)
-    descripcion = models.CharField(max_length=256)
-    
+    codigo = models.CharField(max_length=16, null=True)
+    observaciones = models.CharField(max_length=256, null=True)
+    puntoReposicion = models.IntegerField(null=True)
+
     def __str__(self):
         texto = "{0} ({1})"
         return texto.format(self.nombre, self.cantidad)
@@ -33,7 +40,7 @@ class Insumo(models.Model):
 class TipoHerramienta(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=32)
-    descripcion = models.CharField(max_length=256)
+    descripcion = models.CharField(max_length=256, null=True)
 
     def __str__(self):
         texto = "{0}"
@@ -42,29 +49,21 @@ class TipoHerramienta(models.Model):
 class Herramienta(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=32)
-    tipoHerramienta_id = models.ForeignKey(TipoHerramienta, on_delete=models.DO_NOTHING)
-    codigo = models.CharField(max_length=16)
-    ESTADO_CHOICES = (
-        ('OK', 'OK'),
-        ('En reparación', 'En reparación'),
-        ('Mal estado', 'Mal estado'),
-    )
+    tipoHerramienta = models.ForeignKey(TipoHerramienta, on_delete=models.DO_NOTHING)
+    codigo = models.CharField(max_length=16, null=True)
     estado = models.CharField(max_length=16, choices=ESTADO_CHOICES, default='OK')
+
+    fechaAlta = models.DateTimeField(auto_now=True)
+    observaciones = models.CharField(max_length=255, null=True)
 
     def __str__(self):
         texto = "{0} [{1}]"
         return texto.format(self.nombre, self.estado)    
-
-class PedidoInsumo(models.Model):
-    id = models.AutoField(primary_key=True)
-    insumo_id = models.ForeignKey(Insumo,on_delete=models.DO_NOTHING)
-    cantidad = models.IntegerField()
-    fechaHora = models.DateTimeField(auto_now=True)
         
 class OrdenRetiro(models.Model):
     id = models.AutoField(primary_key=True)
-    insumo_id = models.ForeignKey(Insumo, on_delete=models.DO_NOTHING)
-    tarea_id = models.ForeignKey(Tarea, on_delete=models.DO_NOTHING)
+    insumo = models.ForeignKey(Insumo, on_delete=models.DO_NOTHING)
+    tarea = models.ForeignKey(Tarea, on_delete=models.DO_NOTHING)
     cantidad = models.IntegerField()
     fechaHora = models.DateTimeField(auto_now=True)
 
@@ -74,6 +73,19 @@ class OrdenRetiro(models.Model):
 
 class AjusteStock(models.Model):
     id = models.AutoField(primary_key=True)
-    insumo_id = models.ForeignKey(Insumo, on_delete=models.DO_NOTHING)
+    insumo = models.ForeignKey(Insumo, on_delete=models.DO_NOTHING)
     cantidad = models.IntegerField()
-    motivo = models.CharField(max_length=256)
+    observaciones = models.CharField(max_length=256)
+    fecha = models.DateTimeField(auto_now=True)
+    
+    ACCION_CANTIDAD = (
+            ("+", "+"),
+            ("-", "-"),
+    )
+    accionCantidad = models.CharField(max_length=1, choices=ACCION_CANTIDAD, default='+')
+
+class EstadoHerramienta(models.Model):
+    herramienta = models.ForeignKey(Herramienta, on_delete=models.DO_NOTHING)
+    fecha = models.DateTimeField(auto_now=True)
+    estado = models.CharField(max_length=16, choices=ESTADO_CHOICES, default="OK")
+    observaciones = models.CharField(max_length=255, null=True)
