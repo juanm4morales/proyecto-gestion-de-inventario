@@ -40,8 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+<<<<<<< HEAD
     'rest_framework',
     'corsheaders',
+=======
+    'corsheaders',
+    'rest_framework',
+>>>>>>> c19a405aced90c4d783fe4afedd96a85cc57cf93
     'coreapi',
     'compra',
     'usuario',
@@ -52,8 +57,13 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+<<<<<<< HEAD
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
+=======
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+>>>>>>> c19a405aced90c4d783fe4afedd96a85cc57cf93
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
