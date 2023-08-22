@@ -5,6 +5,6 @@ class Usuario(models.Model):
     legajo = models.IntegerField(unique=True)
     nombre = models.CharField(max_length=255)
     apellido = models.CharField(max_length=255)
-    cargo = models.CharField(max_length=255)
+    cargo = models.CharField(max_length=255, null=True)
     mail = models.EmailField()
     telefono = models.CharField(max_length=255)
