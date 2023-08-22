@@ -28,6 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1','localhost']
 
+ALLOWED_HTTP_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
 
 # Application definition
 
