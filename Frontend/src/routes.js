@@ -6,7 +6,8 @@ import Dashboard from "./pages/DashboardPage";
 import ErrorPage from "./pages/ErrorPage"
 import {ItemList}  from "./pages/ItemListPage";
 import {CreateForm,ReadForm,UpdateForm,DeleteForm} from "./pages/ItemDetailPage";
-import {ReadItem,FormSubmitter,FormLoader} from "./components/Api/apiService"
+import {ReadItem,FormSubmitter,FormLoader} from "./components/Api/apiService";
+import { resources } from "./components/Api/apiService";
 
 /**
  * Variable que contiene las rutas que se renderizarán.
@@ -18,7 +19,7 @@ import {ReadItem,FormSubmitter,FormLoader} from "./components/Api/apiService"
       children?: React.ReactNode;
       caseSensitive?: boolean;
       id?: string;
-      loader?: LoaderFunction;
+      loader?: LoaderFresourcesunction;
       action?: ActionFunction;
       element?: React.ReactNode | null;
       Component?: React.ComponentType | null;
@@ -35,7 +36,59 @@ import {ReadItem,FormSubmitter,FormLoader} from "./components/Api/apiService"
   (las rutas index,layout y el outlet son conceptos importantes)
  */
 
-var routes = [
+
+/**
+ * Geenra las rutas a partir de un json
+ * @param {*} itemNames 
+ * @returns 
+ */
+function getItemRoutes(){
+  var routes = [];
+  Object.keys(resources).forEach((module) => {
+    Object.keys(resources[module]).forEach((item) => {
+        const newRoutes = [
+        {
+          path:`${module}/${item}`,
+          element: <ItemList/>,
+          errorElement:<ErrorPage/>
+        },
+        {
+          path: `${module}/${item}/create/`,
+          element: <CreateForm/>,
+          loader: FormLoader,
+          action: FormSubmitter
+        },
+        {
+          path: `${module}/${item}/read/:id`,
+          element: <ReadForm/>,
+          loader: FormLoader,
+          action: ReadItem
+        },
+        {
+          path: `${module}/${item}/update/:id`,
+          element: <UpdateForm/>,
+          loader: FormLoader,
+          action: FormSubmitter
+        },
+        {
+          path: `${module}/${item}/delete/:id`,
+          element: <DeleteForm/>,
+          loader: FormLoader,
+          action: FormSubmitter
+        }];
+        routes = routes.concat(newRoutes)
+      return ;});
+    return ;});
+    routes.push(
+      {
+        index:true,
+        element: <Home/>
+      }
+    );
+    return routes;
+  }
+
+  var routes = [
   {
     path: "/",
     loader: () => (redirect("/home"))
@@ -55,73 +108,9 @@ var routes = [
   {
     path: "/Dashboard/",
     element: <Dashboard />,
-    children : [
-      {
-        path:"inventario/:item",
-        element: <ItemList/>,
-        errorElement:<ErrorPage/>
-      },
-      {
-        path:"inventario/:item/create/",
-        element: <CreateForm/>,
-        loader: FormLoader,
-        action: FormSubmitter
-      },
-      {
-        path:"inventario/:item/read/:id",
-        element: <ReadForm/>,
-        loader: FormLoader,
-        action: ReadItem
-      },
-      {
-        path:"inventario/:item/update/:id",
-        element: <UpdateForm/>,
-        loader: FormLoader,
-        action: FormSubmitter
-      },
-      {
-        path:"inventario/:item/delete/:id",
-        element: <DeleteForm/>,
-        loader: FormLoader,
-        action: FormSubmitter
-      },
-      {
-        index:true,
-        element: <Home/>
-      }
-    ]
+    children : getItemRoutes()
   }
 ];
 
-//console.log(routes);
 const router = createBrowserRouter(routes);
 export default router;
-
-/* (Codigo que genera rutas a partir de una lista)
-const itemNames =[
-    "Insumo",
-    "TipoInsumo",
-    "Herramienta",
-    "TipoHerramienta",
-]
-
-function getItemRoutes(itemNames){
-  var routes = itemNames.map((name) => {
-  return ({
-      path: "/inventario/".concat(name),
-      loader: ItemsLoader,
-      element: <ListItemPage/>
-    })
-  })
-  itemNames.map((name) => (
-    routes.push(
-      {
-        path: "/inventario/".concat(name).concat("/detail/:itemId/:act"),
-        loader: ItemLoader,
-        element: <DetailItemPage/>
-      }
-    )
-    ),routes)
-  return routes;  
-}
-*/

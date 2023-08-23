@@ -1,5 +1,5 @@
-import {useParams,Form, Link, useLoaderData} from "react-router-dom";
-import {ReadItem,resources} from "../components/Api/apiService";
+import {Form, Link, useLoaderData} from "react-router-dom";
+import {ReadItem,resources,GetUrlParts} from "../components/Api/apiService";
 import { useState } from "react";
 
 /**
@@ -14,9 +14,9 @@ const handleInputChange = (item,att,setData) => (event)=> {
 }
 
 function ItemForm(op){
-    const {item: itemName} = useParams()
+    const {module:moduleName,item: itemName} = GetUrlParts()
     const [itemObj,setItemObj]= useState(useLoaderData() || [])
-    const attributes = resources[itemName]
+    const attributes = resources[moduleName][itemName]
     if(op!=="Create"){
         ReadItem(setItemObj)
     }

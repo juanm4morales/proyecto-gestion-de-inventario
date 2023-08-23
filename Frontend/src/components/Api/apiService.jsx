@@ -1,18 +1,13 @@
 import axios from "axios"
 import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams,useLocation } from "react-router-dom";
 
 const inventarioAPI = axios.create()
 inventarioAPI.defaults.baseURL = "http://127.0.0.1:8000"
 
-
-export var resources ={
-    TipoInsumo:['id','nombre','descripcion']
-}
-
 export function ListItems(setItems){
-    const {item: itemName} = useParams();
-    const url = `${itemName}/api/v1/${itemName}`;      
+    const {item,module} = GetUrlParts();
+    const url = `${module}/${item}/`;;      
     useEffect(() => {
         async function loadItems(){
             const jsonItem = await inventarioAPI.get(url);
@@ -23,8 +18,9 @@ export function ListItems(setItems){
 }
 
 export function ReadItem(setItem){
-    const {item: itemName,id}= useParams();
-    const url = `${itemName}/api/v1/${itemName}/${id}/`;
+    const {item,module} = GetUrlParts();
+    const {id} = useParams()
+    const url = `${module}/${item}/${id}`;
     useEffect(() => {
         async function loadItem(){
             const jsonItem = await inventarioAPI.get(url);
@@ -35,21 +31,24 @@ export function ReadItem(setItem){
 }
 
 export async function FormLoader({ request }){
-    let url = new URL(request.url);
+    //let url = new URL(request.url);
     return(null)
 }
 
 export async function FormSubmitter({request,params}){
-    const item = params.item;
-    const id =params.id
+    
+    //importante que la url este correcta
+    const {item,module} = GetUrlParts();
+    const id = params.id
+    const url = `${module}/${item}/${id}`;
+    
     //FormData to object
     let formData = await request.formData();
     var data={}
     for (const [key,val] of formData) {
         data[key]=val;
     }
-    //importante que la url este correcta
-    const url = `${item}/api/v1/${item}/`;
+
     var result;
     try{
         switch(request.method){
@@ -62,6 +61,7 @@ export async function FormSubmitter({request,params}){
             case "DELETE":
                 result = await inventarioAPI.delete(url.concat(`${id}/`));
                 break;
+            default:{}
         }
     }catch(error){
         result = error.response.data
@@ -69,4 +69,24 @@ export async function FormSubmitter({request,params}){
     <Link to="../../" relative="path"/>
     console.log(result)
     return null;
+}
+
+async function getResources(){
+  var data = {};
+  try{
+    const request = await inventarioAPI.get('models_info');
+    data = request.data;
+  }catch(error){console.log(error)}  
+  return data;
+}
+
+export const resources = await getResources();
+
+
+export function GetUrlParts(){
+    const location = useLocation()
+    const parts = location.pathname.split("/").filter(part => part !== '');
+    const keys = ["dashboard","module","item"]
+    const objeto = Object.assign({}, ...parts.map((valor, index) => ({ [keys[index]]: valor })));
+    return objeto;
 }

@@ -3,13 +3,13 @@ from rest_framework import routers
 from inventario import views
 
 router = routers.DefaultRouter()
-router.register(r'tiposinsumo', views.TipoInsumoCRUD, 'tiposinsumo')
-router.register(r'insumos', views.InsumoCRUD, 'insumos')
-router.register(r'tiposherramienta', views.TipoHerramientaCRUD, 'tiposherramienta')
-router.register(r'herramientas', views.HerramientaCRUD, 'herramientas')
-router.register(r'ordenesretiro', views.OrdenRetiroCRUD, 'ordenesretiro')
-router.register(r'ajustesstock', views.AjusteStockCRUD, 'ajustesstock')
-router.register(r'estadosherramienta', views.EstadoHerramientaCRUD, 'estadosherramienta')
+router.register(r'tipoinsumo', views.TipoInsumoCRUD, 'tipoinsumo')
+router.register(r'insumo', views.InsumoCRUD, 'insumo')
+router.register(r'tipoherramienta', views.TipoHerramientaCRUD, 'tipoherramienta')
+router.register(r'herramienta', views.HerramientaCRUD, 'herramienta')
+router.register(r'ordenretiro', views.OrdenRetiroCRUD, 'ordenretiro')
+router.register(r'ajustestock', views.AjusteStockCRUD, 'ajustestock')
+router.register(r'estadoherramienta', views.EstadoHerramientaCRUD, 'estadoherramienta')
 
 urlpatterns = [
     path('', include(router.urls)),
