@@ -12,9 +12,13 @@ def get_models(request):
     for _ in apps_names:
         app = apps.get_app_config(_)
         models = app.get_models()
+        tables_dict = {}
         for model in models:
             table_name = model._meta.db_table
+            table_name = table_name.split('_')[1]
             attrs = [field.name for field in model._meta.fields]
-            models_dict[table_name] = attrs
+            tables_dict[table_name] = attrs
+
+        models_dict[_] = tables_dict
 
     return JsonResponse(models_dict)
