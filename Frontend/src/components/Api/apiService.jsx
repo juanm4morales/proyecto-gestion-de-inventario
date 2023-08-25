@@ -38,9 +38,10 @@ export async function FormLoader({ request }){
 export async function FormSubmitter({request,params}){
     
     //importante que la url este correcta
-    const {item,module} = GetUrlParts();
+    //No puedo usar hooks en actions ni loaders
+    const {item,module} = GetUrlPartsFromRequest(request);
     const id = params.id
-    const url = `${module}/${item}/${id}`;
+    const url = `${module}/${item}/`;
     
     //FormData to object
     let formData = await request.formData();
@@ -82,6 +83,13 @@ async function getResources(){
 
 export const resources = await getResources();
 
+function GetUrlPartsFromRequest(request){
+    var parts = request.url.split("/").filter(part => part !== '');
+    console.log(parts)
+    const keys = ["protocol","address","dashboard","module","item","operation"]
+    const objeto = Object.assign({}, ...parts.map((valor, index) => ({ [keys[index]]: valor })));
+    return objeto;
+}
 
 export function GetUrlParts(){
     const location = useLocation()

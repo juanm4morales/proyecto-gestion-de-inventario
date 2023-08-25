@@ -14,7 +14,7 @@ const handleInputChange = (item,att,setData) => (event)=> {
 }
 
 function ItemForm(op){
-    const {module:moduleName,item: itemName} = GetUrlParts()
+    const {module : moduleName,item : itemName} = GetUrlParts()
     const [itemObj,setItemObj]= useState(useLoaderData() || [])
     const attributes = resources[moduleName][itemName]
     if(op!=="Create"){
